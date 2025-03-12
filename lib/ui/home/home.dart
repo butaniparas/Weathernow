@@ -61,261 +61,262 @@ class _HomeScreenState extends State<HomeScreen> {
           await _onWillPop(context);
         }
       },
-      child: Scaffold(
-        body: SafeArea(
-            child: Stack(
-          children: [
-            Consumer<WeatherDataProvider>(
-              builder: (context, searchProvider, child) {
-                return Opacity(
-                    opacity: 0.7,
-                    child: image_asset(
-                        assetpath: getBackgroundImage(weatherCondition),
+      child: SafeArea(
+        child: Scaffold(
+          body: Stack(
+                    children: [
+          Consumer<WeatherDataProvider>(
+            builder: (context, searchProvider, child) {
+              return Opacity(
+                  opacity: 0.7,
+                  child: image_asset(
+                      assetpath: getBackgroundImage(weatherCondition),
+                      width: ScreenSize.screenWidth,
+                      height: ScreenSize.screenHeight,
+                      fit: BoxFit.cover));
+            },
+          ),
+          Container(
+            color: appcolor.color_black_transperent,
+          ),
+          Lottie.asset(appassets.flyingbird, width: 300, height: 300),
+          Positioned(
+              bottom: 0,
+              child:
+                  Lottie.asset(appassets.flyingbird, width: 300, height: 300)),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      image_asset(
+                        assetpath: appassets.ic_location,
+                        width: 22,
+                        height: 22,
+                        fit: BoxFit.cover,
+                        color: appcolor.color_white,
+                      ),
+                      SizedBox(width: 5),
+                      CustomText(
+                        text: city!,
+                        fontWeight: FontWeight.bold,
+                        fontsize: 20,
+                        fontcolor: appcolor.color_white,
+                      ),
+                    ],
+                  ),
+                  CustomText(
+                    text: "Today, $currenttime",
+                    fontWeight: FontWeight.w400,
+                    fontsize: 15,
+                    fontcolor: appcolor.color_white,
+                  ),
+                  SizedBox(height: 20),
+                  CustomTextformfield(
+                    controller: _searchController,
+                    hinttext: "Enter City Here...",
+                    obsecure: false,
+                    keybordtype: TextInputType.text,
+                    hintcolor: appcolor.color_white,
+                    borderradius: 15,
+                    borderColor: appcolor.color_white,
+                    textcolor: appcolor.color_white,
+                    focused_borderColor: appcolor.color_white,
+                    onsubmitted: (value) {
+                      if (value!.isNotEmpty) {
+                        weatherdataProvider.updateSearch(context, value!);
+                      } else {
+                        weatherdataProvider.fetchCurrentLocationWeather(context);
+                      }
+                    },
+                    suffixicon: weatherdataProvider.searchQuery.isNotEmpty
+                        ? IconButton(
+                            icon: Icon(
+                              Icons.clear,
+                              color: appcolor.color_white,
+                            ),
+                            onPressed: () {
+                              _searchController.clear();
+                              weatherdataProvider.clearSearch(context);
+                            },
+                          )
+                        : null,
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Container(
                         width: ScreenSize.screenWidth,
-                        height: ScreenSize.screenHeight,
-                        fit: BoxFit.cover));
-              },
-            ),
-            Container(
-              color: appcolor.color_black_transperent,
-            ),
-            Lottie.asset(appassets.flyingbird, width: 300, height: 300),
-            Positioned(
-                bottom: 0,
-                child:
-                    Lottie.asset(appassets.flyingbird, width: 300, height: 300)),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        image_asset(
-                          assetpath: appassets.ic_location,
-                          width: 22,
-                          height: 22,
-                          fit: BoxFit.cover,
-                          color: appcolor.color_white,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: appcolor.color_blue_lightest,
                         ),
-                        SizedBox(width: 5),
-                        CustomText(
-                          text: city!,
-                          fontWeight: FontWeight.bold,
-                          fontsize: 20,
-                          fontcolor: appcolor.color_white,
+                        padding: EdgeInsets.all(15.0),
+                        child: Column(
+                          children: [
+                            Consumer<WeatherDataProvider>(
+                              builder: (context, searchProvider, child) {
+                                return Lottie.asset(
+                                  getCardAnim(weatherCondition),
+                                  width: ScreenSize.screenWidth*0.2,
+                                  height: ScreenSize.screenWidth*0.2,
+                                );
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            CustomText(
+                              text: "${temperature.toStringAsFixed(1)}°C",
+                              fontcolor: appcolor.color_white,
+                              fontsize: 35,
+                            ),
+                            SizedBox(height: 5),
+                            CustomText(
+                              text: weathertext!,
+                              fontcolor: appcolor.color_white,
+                              fontsize: 20,
+                            ),
+                            SizedBox(height: 30),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                  child: WeatherInfoItem(
+                                    assetPath: appassets.ic_windspeed,
+                                    value: wind_speed.toString(),
+                                    iconColor: appcolor.color_white,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: WeatherInfoItem(
+                                    assetPath: appassets.ic_humidity,
+                                    value: humidity.toString(),
+                                    iconColor: appcolor.color_white,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: WeatherInfoItem(
+                                    assetPath: appassets.ic_eye,
+                                    value: skyvisibility.toString(),
+                                    iconColor: appcolor.color_white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )),
+                  ),
+                  SizedBox(height: 40),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: CustomText(text: "Today Weather",fontWeight: FontWeight.bold,fontsize: 18,fontcolor: appcolor.color_white),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: ScreenSize.screenWidth*0.19,
+                          height:ScreenSize.screenWidth*0.3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: appcolor.color_yellowwhite,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: WeatherInfoItem(
+                              assetPath: appassets.ic_lowtemp,
+                              value: low_temperature.toStringAsFixed(1),
+                              iconSize: 30,
+                              iconColor:appcolor.color_black,
+                              textColor: appcolor.color_black,
+                              textSize: 13,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Container(
+                          width: ScreenSize.screenWidth*0.19,
+                          height:ScreenSize.screenWidth*0.3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: appcolor.color_yellowwhite,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: WeatherInfoItem(
+                              assetPath: appassets.ic_hightemp,
+                              value: high_temperature.toStringAsFixed(1),
+                              iconSize: 30,
+                              iconColor:appcolor.color_black,
+                              textColor: appcolor.color_black,
+                              textSize: 13,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Container(
+                          width: ScreenSize.screenWidth*0.19,
+                          height:ScreenSize.screenWidth*0.3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: appcolor.color_yellowwhite,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: WeatherInfoItem(
+                              assetPath: appassets.ic_sunrise,
+                              value: sunrise.toString(),
+                              iconSize: 30,
+                              iconColor:appcolor.color_black,
+                              textColor: appcolor.color_black,
+                              textSize: 13,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Container(
+                          width: ScreenSize.screenWidth*0.19,
+                          height:ScreenSize.screenWidth*0.3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: appcolor.color_yellowwhite,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: WeatherInfoItem(
+                              assetPath: appassets.ic_sunset,
+                              value: sunset.toString(),
+                              iconSize: 30,
+                              iconColor:appcolor.color_black,
+                              textColor: appcolor.color_black,
+                              textSize: 13,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    CustomText(
-                      text: "Today, $currenttime",
-                      fontWeight: FontWeight.w400,
-                      fontsize: 15,
-                      fontcolor: appcolor.color_white,
-                    ),
-                    SizedBox(height: 20),
-                    CustomTextformfield(
-                      controller: _searchController,
-                      hinttext: "Enter City Here...",
-                      obsecure: false,
-                      keybordtype: TextInputType.text,
-                      hintcolor: appcolor.color_white,
-                      borderradius: 15,
-                      borderColor: appcolor.color_white,
-                      textcolor: appcolor.color_white,
-                      focused_borderColor: appcolor.color_white,
-                      onsubmitted: (value) {
-                        if (value!.isNotEmpty) {
-                          weatherdataProvider.updateSearch(context, value!);
-                        } else {
-                          weatherdataProvider.fetchCurrentLocationWeather(context);
-                        }
-                      },
-                      suffixicon: weatherdataProvider.searchQuery.isNotEmpty
-                          ? IconButton(
-                              icon: Icon(
-                                Icons.clear,
-                                color: appcolor.color_white,
-                              ),
-                              onPressed: () {
-                                _searchController.clear();
-                                weatherdataProvider.clearSearch(context);
-                              },
-                            )
-                          : null,
-                    ),
-                    SizedBox(height: 20),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Container(
-                          width: ScreenSize.screenWidth,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: appcolor.color_blue_lightest,
-                          ),
-                          padding: EdgeInsets.all(15.0),
-                          child: Column(
-                            children: [
-                              Consumer<WeatherDataProvider>(
-                                builder: (context, searchProvider, child) {
-                                  return Lottie.asset(
-                                    getCardAnim(weatherCondition),
-                                    width: ScreenSize.screenWidth*0.2,
-                                    height: ScreenSize.screenWidth*0.2,
-                                  );
-                                },
-                              ),
-                              SizedBox(height: 10),
-                              CustomText(
-                                text: "${temperature.toStringAsFixed(1)}°C",
-                                fontcolor: appcolor.color_white,
-                                fontsize: 35,
-                              ),
-                              SizedBox(height: 5),
-                              CustomText(
-                                text: weathertext!,
-                                fontcolor: appcolor.color_white,
-                                fontsize: 20,
-                              ),
-                              SizedBox(height: 30),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Expanded(
-                                    child: WeatherInfoItem(
-                                      assetPath: appassets.ic_windspeed,
-                                      value: wind_speed.toString(),
-                                      iconColor: appcolor.color_white,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: WeatherInfoItem(
-                                      assetPath: appassets.ic_humidity,
-                                      value: humidity.toString(),
-                                      iconColor: appcolor.color_white,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: WeatherInfoItem(
-                                      assetPath: appassets.ic_eye,
-                                      value: skyvisibility.toString(),
-                                      iconColor: appcolor.color_white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )),
-                    ),
-                    SizedBox(height: 40),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: CustomText(text: "Today Weather",fontWeight: FontWeight.bold,fontsize: 18,fontcolor: appcolor.color_white),
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: ScreenSize.screenWidth*0.19,
-                            height:ScreenSize.screenWidth*0.3,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: appcolor.color_yellowwhite,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: WeatherInfoItem(
-                                assetPath: appassets.ic_lowtemp,
-                                value: low_temperature.toStringAsFixed(1),
-                                iconSize: 30,
-                                iconColor:appcolor.color_black,
-                                textColor: appcolor.color_black,
-                                textSize: 13,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Container(
-                            width: ScreenSize.screenWidth*0.19,
-                            height:ScreenSize.screenWidth*0.3,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: appcolor.color_yellowwhite,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: WeatherInfoItem(
-                                assetPath: appassets.ic_hightemp,
-                                value: high_temperature.toStringAsFixed(1),
-                                iconSize: 30,
-                                iconColor:appcolor.color_black,
-                                textColor: appcolor.color_black,
-                                textSize: 13,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Container(
-                            width: ScreenSize.screenWidth*0.19,
-                            height:ScreenSize.screenWidth*0.3,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: appcolor.color_yellowwhite,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: WeatherInfoItem(
-                                assetPath: appassets.ic_sunrise,
-                                value: sunrise.toString(),
-                                iconSize: 30,
-                                iconColor:appcolor.color_black,
-                                textColor: appcolor.color_black,
-                                textSize: 13,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Container(
-                            width: ScreenSize.screenWidth*0.19,
-                            height:ScreenSize.screenWidth*0.3,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: appcolor.color_yellowwhite,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: WeatherInfoItem(
-                                assetPath: appassets.ic_sunset,
-                                value: sunset.toString(),
-                                iconSize: 30,
-                                iconColor:appcolor.color_black,
-                                textColor: appcolor.color_black,
-                                textSize: 13,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 20),
+                ],
               ),
             ),
-          ],
-        )),
+          ),
+                    ],
+                  ),
+        ),
       ),
     );
   }
