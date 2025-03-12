@@ -1,16 +1,19 @@
 # weathernow
 
-A new Flutter project.
+WeatherNow is a simple and fast weather app built with Flutter. It provides real-time weather updates using a public API and supports offline mode by caching the last retrieved weather data.
 
-## Getting Started
+Features
 
-This project is a starting point for a Flutter application.
+🌦 Live Weather Updates – Get real-time weather data for any city.
 
-A few resources to get you started if this is your first Flutter project:
+📍 Location-Based Search – Fetch weather using city name.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+📡 Internet Check – Displays a toast if the device is offline.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+💾 Offline Mode – Shows last cached weather data when offline.
+
+
+How to run
+1- Import Code in android studio 
+2- open pubspec.yaml and click on pub get
+3- run the app in your device
