@@ -13,13 +13,14 @@ class SplashScreen extends StatelessWidget {
     Navigatetonext(context);
     ScreenSize.init(context);
 
-    return Scaffold(
-      body: SafeArea(
-          child: Container(
-        width: ScreenSize.screenWidth,
-        height: ScreenSize.screenHeight,
-        child: Lottie.asset(appassets.splashanim),
-      )),
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+                width: ScreenSize.screenWidth,
+                height: ScreenSize.screenHeight,
+                child: Lottie.asset(appassets.splashanim),
+              ),
+      ),
     );
   }
 }
