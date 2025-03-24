@@ -24,7 +24,14 @@
 # Keep annotations to prevent R8 from stripping them
 
 # Keep JSON models
--keep class com.weathernow.weathernow.ModelCurrentWeather { *; }
+-keep class com.weathernow.weathernow.** { *; }
+
+# Keep JSON deserialization
+-keep class com.google.gson.** { *; }
+-keep class retrofit2.** { *; }
+-keep class okhttp3.** { *; }
+-keep class org.json.** { *; }
+
 
 # Keep Retrofit/HTTP libraries
 -keep class okhttp3.** { *; }
