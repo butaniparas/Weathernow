@@ -36,33 +36,3 @@ jobs:
         with:
             name: debug-apk
             path: build\app\outputs\flutter-apk\app-debug.apk
-
-  build-ios:
-    runs-on: macos-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.27.4'
-
-      - name: Install Dependencies
-        run: flutter pub get
-
-      - name: Install CocoaPods (For iOS)
-        run: |
-          cd ios
-          pod install
-          cd ..
-
-      - name: Build iOS IPA
-        run: flutter build ipa --release
-
-      - name: Upload IPA Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-ipa
-          path: build/ios/ipa/*.ipa
