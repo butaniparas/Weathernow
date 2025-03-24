@@ -12,6 +12,8 @@ Features
 
 💾 Offline Mode – Shows last cached weather data when offline.
 
+📡 Integrated CI/CD Pipelines.
+
 
 How to run
 1- Import Code in android studio 
